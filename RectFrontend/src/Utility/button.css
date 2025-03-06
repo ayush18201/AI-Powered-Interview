@@ -1,0 +1,24 @@
+.btn-primary{
+        background-color: #1c6ef3;
+        color: white;
+        padding: 16px;
+        border-radius: 5px;
+}
+.btn-secondary{
+        background-color: white;
+        color: #1c6ef3;
+        padding: 8px;
+        border-radius: 5px;
+}
+.btn-secondary:hover{
+        background-color: #1c6ef3;
+        color: white;
+}
+.category-btn {
+    background-color: #f7f8fa;
+    display: flex;
+    width: 300px;
+    justify-content: space-between;
+    padding: 8px;
+    border-radius: 5px;
+}
