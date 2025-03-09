@@ -1,5 +1,6 @@
 import express from 'express'
 import interviewData from '../controllers/interviewData.js'
+import cors from 'cors'
 
 const interviewRouter = express.Router()
 
