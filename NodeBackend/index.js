@@ -11,16 +11,7 @@ const app = express()
 const port = process.env.PORT || 3000
 app.use(bodyParser.json())
 app.use(cookieParser());
-app.use(
-    cors({
-      origin: [
-        "http://localhost:5173", 
-        "https://ai-powered-interview-frontend.onrender.com"
-      ], // Allow both localhost and deployed frontend
-      methods: "GET,POST,PUT,DELETE",
-      allowedHeaders: "Content-Type,Authorization",
-    })
-  );
+app.use(cors({ origin: "*" }));
 console.log("Starting transcription process..."); 
 app.use('/', chatRouter)
 app.use('/user', authRouter)
