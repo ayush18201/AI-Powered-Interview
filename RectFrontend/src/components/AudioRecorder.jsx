@@ -44,7 +44,7 @@ async function uploadAudio(audioBlob) {
     const formData = new FormData();
     formData.append("audio", audioBlob, "recorded_audio.wav");
 
-    const response = await fetch("https://ai-powered-interview-backend.onrender.com/speech-to-text", {
+    const response = await fetch("https://ai-powered-interview-3d8l.onrender.com/speech-to-text", {
         method: "POST",
         body: formData,
     });
