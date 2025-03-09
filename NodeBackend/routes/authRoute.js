@@ -3,6 +3,7 @@ import authService from '../controllers/auth.js'
 import {OAuth2Client} from 'google-auth-library'
 import jwt from 'jsonwebtoken'
 import conf from '../Conf/conf.js'
+import cors from 'cors'
 
 const authRouter = express.Router()
 const client = new OAuth2Client('175788622677-ccn8cdv8aacrgk7o52h0u2ef8npvv87u.apps.googleusercontent.com');
