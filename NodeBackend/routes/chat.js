@@ -4,6 +4,7 @@ import multer from 'multer'
 import {spawn} from 'child_process'
 import path from 'path'
 import fs from 'fs'
+import cors from 'cors'
 
 const chatRouter = express.Router()
 const storage = multer.diskStorage({
