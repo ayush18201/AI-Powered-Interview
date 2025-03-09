@@ -5,6 +5,10 @@ import {spawn} from 'child_process'
 import path from 'path'
 import fs from 'fs'
 import cors from 'cors'
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const chatRouter = express.Router()
 const storage = multer.diskStorage({
@@ -46,41 +50,60 @@ chatRouter.post("/speech-to-text", upload.single("audio"), (req, res) => {
         console.log(`Python process exited with code ${code}`);
     });
 });
-chatRouter.post('/text-to-speech', (req,res)=>{
-    if(!req.body.text) return res.status(400).json({error:'No file Uploaded'})
-    const text = req.body.text
-    const fileName = `output_${Date.now()}.mp3`
-    const outputPath = path.resolve(fileName)
-    const pythonPath = path.resolve("venv/bin/python3");
-    const scriptPath = path.resolve("text_to_speech.py"); 
-// const process = spawn(pythonPath, ["text_to_speech", text, './outputs', fileName ])
-const process = spawn(pythonPath, [scriptPath, text, './outputs', outputPath]);
-process.on('close',(code) =>{
-    if(code===0){
-        console.log(`Python process exited with code ${code}`)
-        fs.access(outputPath, fs.constants.F_OK ,(err)=>{
-            if(err){
-                console.error('Error: file not found')
-                return res.status(500).json({error:'failed to generate speech'})
-            }
-            const fileStream = fs.createReadStream(outputPath)
-            res.setHeader("Content-Type", "audio/mpeg");
-            fileStream.pipe(res)
+chatRouter.post('/text-to-speech', (req, res) => {
+    if (!req.body.text) return res.status(400).json({ error: 'No text provided' });
 
-            res.on("finish", () => {
-               fs.unlink(outputPath, (unlinkErr) => {
-                                         if (unlinkErr) console.error("Error deleting file:", unlinkErr);
-                                         else console.log("File Deleted Successfully");
-                                     });
-                                 });
-    
-        })
-    }else{
-        res.status(500).json({ error: "Failed to get speech" });
+    const text = req.body.text;
+    const fileName = `output_${Date.now()}.mp3`;
+    const outputPath = path.join(__dirname, "outputs", fileName);
+    const pythonPath = path.join(__dirname, "venv", "bin", "python3"); // Update for Windows if needed
+    const scriptPath = path.join(__dirname, "text_to_speech.py");
+
+    // Check if script exists
+    if (!fs.existsSync(scriptPath)) {
+        return res.status(500).json({ error: "Python script not found" });
     }
-    
-})
-})
+
+    // Spawn Python process
+    const process = spawn(pythonPath, [scriptPath, text, "outputs", outputPath]);
+
+    process.on('close', async (code) => {
+        if (code === 0) {
+            console.log(`Python process exited successfully.`);
+
+            // Check if the file exists
+            fs.access(outputPath, fs.constants.F_OK, async (err) => {
+                if (err) {
+                    console.error('Error: File not found');
+                    return res.status(500).json({ error: 'Failed to generate speech' });
+                }
+
+                // Stream the file to the response
+                const fileStream = fs.createReadStream(outputPath);
+                res.setHeader("Content-Type", "audio/mpeg");
+                fileStream.pipe(res);
+
+                // Delete file after sending response
+                res.on("finish", async () => {
+                    try {
+                        await fs.promises.unlink(outputPath);
+                        console.log("File Deleted Successfully");
+                    } catch (unlinkErr) {
+                        console.error("Error deleting file:", unlinkErr);
+                    }
+                });
+            });
+        } else {
+            console.error(`Python process exited with code ${code}`);
+            res.status(500).json({ error: "Failed to generate speech" });
+        }
+    });
+
+    process.on('error', (err) => {
+        console.error("Error starting Python process:", err);
+        res.status(500).json({ error: "Error executing Python script" });
+    });
+});
 chatRouter.get('/get-questions/:role/:exp?', async(req, res)=>{
   const role = req.params.role;
   const experience = req.params.exp || ''
