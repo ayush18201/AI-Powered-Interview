@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import axios from 'axios';
 
 dotenv.config();
-const API_KEY = process.env.API_KEY;
+const API_KEY = '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';
 const API_URL = "https://openrouter.ai/api/v1/chat/completions";
 
 
