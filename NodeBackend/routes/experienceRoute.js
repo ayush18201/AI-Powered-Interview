@@ -3,6 +3,17 @@ import experienceService from '../controllers/experience.js'
 
 const experienceRouter = express.Router()
 
+experienceRouter.use(
+  cors({
+    origin: [
+      "http://localhost:5173", 
+      "https://ai-powered-interview-frontend.onrender.com"
+    ],
+    methods: "GET,POST",
+    allowedHeaders: "Content-Type,Authorization",
+    credentials: true,
+  })
+);
 experienceRouter.post('/saveExperience',async (req, res)=>{
     try{
         const {id, role, experience} = req.body
