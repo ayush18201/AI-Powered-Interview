@@ -20,5 +20,3 @@ app.use('/interview', interviewRouter)
 app.listen(port, ()=>{
     console.log(`Server is running at ${port}`)
 })
-
-
