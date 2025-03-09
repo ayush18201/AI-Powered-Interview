@@ -14,6 +14,17 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
+chatRouter.use(
+  cors({
+    origin: [
+      "http://localhost:5173", 
+      "https://ai-powered-interview-frontend.onrender.com"
+    ],
+    methods: "GET,POST",
+    allowedHeaders: "Content-Type,Authorization",
+    credentials: true,
+  })
+);
 chatRouter.post("/speech-to-text", upload.single("audio"), (req, res) => {
     if (!req.file) return res.status(400).json({ error: "No file uploaded." });
     const audioPath = path.resolve(req.file.path); // Full path to file
