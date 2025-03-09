@@ -1,5 +1,6 @@
 import express from 'express'
 import experienceService from '../controllers/experience.js'
+import cors from 'cors'
 
 const experienceRouter = express.Router()
 
