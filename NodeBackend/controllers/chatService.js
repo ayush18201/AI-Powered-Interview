@@ -14,7 +14,7 @@ export async function generateQuestions(jobRole, experience) {
     const prompt = experience
         ? `Generate five different professional interview questions for a ${jobRole} role with ${experience} years of experience.`
         : `Generate five different professional interview questions for a ${jobRole} role.`;
-
+console.log(process.env.API_KEY,"api")
     try {
         const response = await axios.post(
             API_URL,
