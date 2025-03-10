@@ -21,14 +21,14 @@ export async function generateQuestions(jobRole, experience) {
         const response = await axios.post(
             API_URL,
             {
-                model: "meta-llama/llama-3-8b-instruct",
+                model: "mistralai/mistral-7b-instruct",
                 messages: [{ role: "user", content: prompt }],
             },
             {
                 headers: {
                     "Authorization": `Bearer ${process.env.API_KEY}`,
                     "Content-Type": "application/json",
-                    "X-Title": "your-app.com", // Fix: Use X-Title instead of HTTP-Referer
+                    "X-Title": "https://ai-powered-interview-ptow.onrender.com", // Fix: Use X-Title instead of HTTP-Referer
                 },
             }
         );
