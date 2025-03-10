@@ -14,19 +14,21 @@ export async function generateQuestions(jobRole, experience) {
     const prompt = experience
         ? `Generate five different professional interview questions for a ${jobRole} role with ${experience} years of experience.`
         : `Generate five different professional interview questions for a ${jobRole} role.`;
-console.log(process.env.API_KEY,"api")
+
+    console.log("API_KEY from env:", process.env.API_KEY); // Debugging
+
     try {
         const response = await axios.post(
             API_URL,
             {
-                model: "mistralai/mistral-7b-instruct", // Ensure this model is supported
+                model: "mistralai/mistral-7b-instruct",
                 messages: [{ role: "user", content: prompt }],
             },
             {
                 headers: {
-                    Authorization: `Bearer ${API_KEY}`,
+                    "Authorization": `Bearer ${process.env.API_KEY}`,
                     "Content-Type": "application/json",
-                    "HTTP-Referer": "your-app.com", // Replace with your app’s URL
+                    "X-Title": "your-app.com", // Fix: Use X-Title instead of HTTP-Referer
                 },
             }
         );
