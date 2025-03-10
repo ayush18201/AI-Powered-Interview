@@ -44,9 +44,9 @@ function CategoryDetail(){
         try{
             let response ;
             if(authStatus && expStatus){
-                response= await fetch(`https://ai-powered-interview-3d8l.onrender.com/get-questions/${categoryName}/${experience}`)
+                response= await fetch(`https://ai-powered-interview-backend.onrender.com/get-questions/${categoryName}/${experience}`)
             }else{
-                response = await fetch(`https://ai-powered-interview-3d8l.onrender.com/get-questions/${categoryName}`)
+                response = await fetch(`https://ai-powered-interview-backend.onrender.com/get-questions/${categoryName}`)
             }
             const question = await response.json()
             setQuestion(question.question)
@@ -74,7 +74,7 @@ function CategoryDetail(){
         }
 
         try{
-            const response = await fetch('https://ai-powered-interview-3d8l.onrender.com/text-to-speech', payload)
+            const response = await fetch('https://ai-powered-interview-backend.onrender.com/text-to-speech', payload)
             const audioBlob = await response.blob();
             const audioURL = URL.createObjectURL(audioBlob)
             const audio = new Audio(audioURL)
@@ -103,7 +103,7 @@ function CategoryDetail(){
         })  
     }
       try{
-        const response = await fetch('https://ai-powered-interview-3d8l.onrender.com/analyse-ans', payload)
+        const response = await fetch('https://ai-powered-interview-backend.onrender.com/analyse-ans', payload)
         const analysedAns = await response.json()
         const data1 = {
         question: question[currentIndex],

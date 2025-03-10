@@ -12,7 +12,7 @@ function Header(){
     console.log(userName,"username")
     const handleLogout = async() =>{
         try{
-            const response = await fetch('https://ai-powered-interview-3d8l.onrender.com/user/logout',{
+            const response = await fetch('https://ai-powered-interview-backend.onrender.com/user/logout',{
                 credentials: 'include'
             })
             if(response.ok){
