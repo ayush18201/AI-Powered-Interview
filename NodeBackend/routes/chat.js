@@ -23,7 +23,8 @@ chatRouter.use(
   cors({
     origin: [
       "http://localhost:5173", 
-      "https://ai-powered-interview-frontend.onrender.com"
+      "https://ai-powered-interview-frontend.onrender.com",
+      "https://ai-powered-interview-ptow.onrender.com"
     ],
     methods: "GET,POST",
     allowedHeaders: "Content-Type,Authorization",
