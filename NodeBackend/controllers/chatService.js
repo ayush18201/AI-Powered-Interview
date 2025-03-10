@@ -21,7 +21,7 @@ export async function generateQuestions(jobRole, experience) {
         const response = await axios.post(
             API_URL,
             {
-                model: "mistralai/mistral-7b-instruct",
+                model: "meta-llama/llama-3-8b-instruct",
                 messages: [{ role: "user", content: prompt }],
             },
             {
