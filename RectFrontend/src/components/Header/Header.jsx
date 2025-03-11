@@ -12,7 +12,7 @@ function Header(){
     console.log(userName,"username")
     const handleLogout = async() =>{
         try{
-            const response = await fetch('http://localhost:3000/user/logout',{
+            const response = await fetch('https://ai-powered-interview-backend.vercel.app/user/logout',{
                 credentials: 'include'
             })
             if(response.ok){

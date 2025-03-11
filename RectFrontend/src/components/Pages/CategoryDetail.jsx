@@ -44,9 +44,9 @@ function CategoryDetail(){
         try{
             let response ;
             if(authStatus && expStatus){
-                response= await fetch(`http://localhost:3000/get-questions/${categoryName}/${experience}`)
+                response= await fetch(`https://ai-powered-interview-backend.vercel.app/get-questions/${categoryName}/${experience}`)
             }else{
-                response = await fetch(`http://localhost:3000/get-questions/${categoryName}`)
+                response = await fetch(`https://ai-powered-interview-backend.vercel.app/get-questions/${categoryName}`)
             }
             const question = await response.json()
             setQuestion(question.question)
@@ -74,7 +74,7 @@ function CategoryDetail(){
         }
 
         try{
-            const response = await fetch('http://localhost:3000/text-to-speech', payload)
+            const response = await fetch('https://ai-powered-interview-backend.vercel.app/text-to-speech', payload)
             const audioBlob = await response.blob();
             const audioURL = URL.createObjectURL(audioBlob)
             const audio = new Audio(audioURL)
@@ -103,7 +103,7 @@ function CategoryDetail(){
         })  
     }
       try{
-        const response = await fetch('http://localhost:3000/analyse-ans', payload)
+        const response = await fetch('https://ai-powered-interview-backend.vercel.app/analyse-ans', payload)
         const analysedAns = await response.json()
         const data1 = {
         question: question[currentIndex],
