@@ -11,7 +11,7 @@
           "src": "/(.*)",
           "dest": "/index.js",
           "headers": {
-            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Origin": "https://ai-powered-interview-frontend.vercel.app",
             "Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE, OPTIONS",
             "Access-Control-Allow-Headers": "Content-Type, Authorization"
           }
