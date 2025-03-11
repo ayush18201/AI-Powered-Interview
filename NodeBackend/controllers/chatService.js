@@ -52,7 +52,7 @@ export async function generateQuestions(jobRole, experience) {
                 headers: {
                     "Authorization": `Bearer ${process.env.API_KEY}`,
                     "Content-Type": "application/json",
-                    "X-Title": "your-app.com", // Fix: Use X-Title instead of HTTP-Referer
+                    "X-Title": "https://ai-powered-interview-ptow.onrender.com", // Fix: Use X-Title instead of HTTP-Referer
                 },
             }
         );
