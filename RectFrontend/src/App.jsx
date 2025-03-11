@@ -16,7 +16,7 @@ function App() {
   useEffect(() => {
     const getCurrentUser = async () => {
         try {
-            const response = await fetch('https://ai-powered-interview-backend.onrender.com/user/currentuser', {
+            const response = await fetch('http://localhost:3000/user/currentuser', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -28,7 +28,7 @@ function App() {
                 const userData = await response.json();
                 dispatch(isUserLoggedIn(userData.userData))
                   const userId = userData.id
-                  const experience = await fetch(`https://ai-powered-interview-backend.onrender.com/exp/getExperience/${userId}`)
+                  const experience = await fetch(`http://localhost:3000/exp/getExperience/${userId}`)
                   if(experience){
                       const expJson = await experience.json()
                     if(!expJson.error) dispatch(experienceData(expJson.experience))

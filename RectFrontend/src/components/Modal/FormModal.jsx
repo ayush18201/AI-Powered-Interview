@@ -16,7 +16,7 @@ function FormModal({onClose, completed}){
             id: userId ?? userEmail
         }
         try{
-            const response = await fetch('https://ai-powered-interview-backend.onrender.com/exp/saveExperience',{
+            const response = await fetch('http://localhost:3000/exp/saveExperience',{
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

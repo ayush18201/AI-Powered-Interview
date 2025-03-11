@@ -1,21 +1,8 @@
 import express from 'express'
 import interviewData from '../controllers/interviewData.js'
-import cors from 'cors'
 
 const interviewRouter = express.Router()
 
-interviewRouter.use(
-  cors({
-    origin: [
-      "http://localhost:5173", 
-      "https://ai-powered-interview-frontend.onrender.com",
-      "https://ai-powered-interview-ptow.onrender.com"
-    ],
-    methods: "GET,POST",
-    allowedHeaders: "Content-Type,Authorization",
-    credentials: true,
-  })
-);
 interviewRouter.post('/saveData', async(req, res)=>{
     const {id, data} = req.body
     try{
