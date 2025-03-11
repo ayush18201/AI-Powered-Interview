@@ -13,30 +13,26 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Enable CORS Middleware
+// 🔹 Allow ALL Origins (CORS)
 app.use(cors({
-    origin: [
-        'http://localhost:5173',
-        'http://localhost:5174',
-        'https://ai-powered-interview-frontend.vercel.app'
-    ],
-    credentials: true,
+    origin: "*",  // Allow requests from any domain
+    credentials: true,  // Allow cookies & authentication headers
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// Manually Set CORS Headers for Every Response
+// 🔹 Manually Set CORS Headers
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", req.headers.origin || '*');
+    res.header("Access-Control-Allow-Origin", "*");  // Allow all origins
     res.header("Access-Control-Allow-Credentials", "true");
     res.header("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE");
     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    
+
     if (req.method === "OPTIONS") {
-        return res.sendStatus(200);
+        return res.sendStatus(200);  // Respond to preflight request
     }
 
-    console.log(`CORS headers set for ${req.headers.origin}`);
+    console.log(`CORS headers set for ${req.headers.origin || "any origin"}`);
     next();
 });
 
@@ -46,7 +42,7 @@ app.use(cookieParser());
 
 // Test CORS Route
 app.get('/test-cors', (req, res) => {
-    res.json({ message: "CORS is working!" });
+    res.json({ message: "CORS is working for all origins!" });
 });
 
 // Routes
