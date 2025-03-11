@@ -22,7 +22,7 @@ function Result({interviewData}){
             data: interviewData
         }
         try{
-            const response = await fetch('https://ai-powered-interview-backend.vercel.app/interview/saveData',{
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/interview/saveData`,{
                 method: 'POST',
                 headers:{
                     'Content-Type': 'application/json'

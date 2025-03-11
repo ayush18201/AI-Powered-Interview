@@ -44,7 +44,7 @@ async function uploadAudio(audioBlob) {
     const formData = new FormData();
     formData.append("audio", audioBlob, "recorded_audio.wav");
 
-    const response = await fetch("https://ai-powered-interview-backend.vercel.app/speech-to-text", {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/speech-to-text`, {
         method: "POST",
         body: formData,
     });

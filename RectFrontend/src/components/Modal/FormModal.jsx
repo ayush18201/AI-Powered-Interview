@@ -16,7 +16,7 @@ function FormModal({onClose, completed}){
             id: userId ?? userEmail
         }
         try{
-            const response = await fetch('https://ai-powered-interview-backend.vercel.app/exp/saveExperience',{
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/exp/saveExperience`,{
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

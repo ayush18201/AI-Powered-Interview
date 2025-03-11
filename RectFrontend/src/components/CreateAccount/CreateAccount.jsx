@@ -13,7 +13,7 @@ function CreateAccount(){
 
     const handleLogin = async (response) => {
             try {
-              const res = await fetch("https://ai-powered-interview-backend.vercel.app/user/auth/google", {
+              const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/user/auth/google`, {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
@@ -44,7 +44,7 @@ function CreateAccount(){
             name: data.name
         }
         try{
-          const response = await fetch('https://ai-powered-interview-backend.vercel.app/user/register',{
+          const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/user/register`,{
             method: 'POST',
             headers: {
                 'Content-Type':'application/json'

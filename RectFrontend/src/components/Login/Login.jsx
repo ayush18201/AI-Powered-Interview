@@ -17,7 +17,7 @@ function Login(){
 
     const handleLogin = async (response) => {
         try {
-          const res = await fetch("https://ai-powered-interview-backend.vercel.app/user/auth/google", {
+          const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/user/auth/google`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -34,7 +34,7 @@ function Login(){
           if(data ){
             dispatch(isUserLoggedIn(data))
             const userId = data.email
-            const experience = await fetch(`https://ai-powered-interview-backend.vercel.app/exp/getExperience/${userId}`)
+            const experience = await fetch(`${import.meta.env.VITE_BACKEND_URL}/exp/getExperience/${userId}`)
             if(experience){
                 const expJson = await experience.json()
                 if(!expJson.error) dispatch(experienceData(expJson.experience))
@@ -53,7 +53,7 @@ function Login(){
         password: data.password
     }
     try{
-        const response = await fetch('https://ai-powered-interview-backend.vercel.app/user/login',{
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/user/login`,{
             method: 'POST',
             headers:{
                 'Content-Type': 'application/json'
@@ -66,7 +66,7 @@ function Login(){
             if(!userData.error){
                 dispatch(isUserLoggedIn(userData.user))
                 const userId = userData.user.id
-                const experience = await fetch(`https://ai-powered-interview-backend.vercel.app/exp/getExperience/${userId}`)
+                const experience = await fetch(`${import.meta.env.VITE_BACKEND_URL}/exp/getExperience/${userId}`)
                 if(experience){
                     const expJson = await experience.json()
                     if(!expJson.error) dispatch(experienceData(expJson.experience))
