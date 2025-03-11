@@ -54,6 +54,9 @@ process.on('close',(code) =>{
             res.setHeader("Content-Type", "audio/mpeg");
             fileStream.pipe(res)
 
+            fileStream.on("end", () => {
+                res.end();
+            });
             res.on("finish", () => {
                fs.unlink(outputPath, (unlinkErr) => {
                                          if (unlinkErr) console.error("Error deleting file:", unlinkErr);

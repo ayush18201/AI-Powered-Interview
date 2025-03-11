@@ -8,7 +8,7 @@ def text_to_speech(text, output_dir, output_file):
     output_path = os.path.join(output_dir, output_file)
     tts = gTTS(text=text, lang="en")  # Choose the language
     tts.save(output_path)  # Save as an MP3 file
-    os.system(f"afplay {output_path}")  # Play the audio (for macOS)
+    # os.system(f"afplay {output_path}")  # Play the audio (for macOS)
 
 if __name__ == "__main__":
     if len(sys.argv) < 4:
