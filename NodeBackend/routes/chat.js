@@ -19,8 +19,9 @@ chatRouter.post("/speech-to-text", upload.single("audio"), (req, res) => {
     const audioPath = path.resolve(req.file.path); // Full path to file
     console.log("Received file:", audioPath);
     // Call Python script to transcribe audio
-    const pythonPath = "/usr/bin/python3"; // Adjust this if needed
-    const process = spawn(pythonPath, ["transcribe.py", audioPath]);
+    const pythonPath = "venv/bin/python3"; // Adjust this if needed
+    const scriptPath = path.resolve("transcribe.py"); 
+    const process = spawn(pythonPath, [scriptPath, audioPath]);
     // let transcription = "";
     process.stdout.on("data", (data) => {
         const transcription = data.toString().trim()
