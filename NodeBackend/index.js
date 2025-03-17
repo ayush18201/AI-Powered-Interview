@@ -39,6 +39,8 @@ app.use('/', chatRouter);
 app.use('/user', authRouter);
 app.use('/exp', experienceRouter);
 app.use('/interview', interviewRouter);
-
+app.listen(port, () => {
+    console.log(`Server is running at http://localhost:${port}`);
+});
 // Export app for Vercel
 export default app;
