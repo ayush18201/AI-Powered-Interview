@@ -1,7 +1,7 @@
 import {generateQuestions, analyseAnswer} from '../controllers/chatService.js'
 import express from 'express'
 import multer from 'multer'
-import {spawn} from 'child_process'
+import {spawn, execFile} from 'child_process'
 import path from 'path'
 import fs from 'fs'
 
@@ -40,32 +40,20 @@ chatRouter.post("/speech-to-text", upload.single("audio"), (req, res) => {
     const audioPath = path.resolve(req.file.path);
     console.log(`✅ Received file: ${audioPath}`);
 
+    const scriptPath = path.resolve("transcribe.py");
     const pythonPath = path.resolve("venv/bin/python3");
-    const scriptPath = path.resolve("transcribe.py"); 
 
     console.log(`✅ Using Python path: ${pythonPath}`);
     console.log(`✅ Using script path: ${scriptPath}`);
 
-    const process = spawn(pythonPath, [scriptPath, audioPath]);
+    execFile(pythonPath, [scriptPath, audioPath], (err, stdout, stderr) => {
+        if (err) {
+            console.error(`❌ Python Error: ${stderr}`);
+            return res.status(500).json({ error: "Error processing the audio file." });
+        }
 
-    process.stdout.on("data", (data) => {
-        console.log(`✅ Python Output: ${data.toString()}`);
-        res.json({ transcription: data.toString().trim() });
-    });
-
-    process.stderr.on("data", (data) => {
-        console.error(`❌ Python Error: ${data.toString()}`);
-    });
-    process.on("error", (err) => {
-        console.error(`❌ Python Process Failed to Start: ${err.message}`);
-    });
-    
-    process.on("exit", (code, signal) => {
-        console.log(`✅ Python process exited with code ${code}, signal: ${signal}`);
-    });
-
-    process.on("close", (code) => {
-        console.log(`✅ Python process exited with code ${code}`);
+        console.log(`✅ Python Output: ${stdout}`);
+        res.json({ transcription: stdout.trim() });
     });
 });
 
