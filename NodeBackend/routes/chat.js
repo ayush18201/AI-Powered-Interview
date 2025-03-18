@@ -14,26 +14,80 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
+// chatRouter.post("/speech-to-text", upload.single("audio"), (req, res) => {
+//     if (!req.file) return res.status(400).json({ error: "No file uploaded." });
+//     const audioPath = path.resolve(req.file.path); // Full path to file
+//     console.log("Received file:", audioPath);
+//     // Call Python script to transcribe audio
+//     const pythonPath = path.resolve("venv/bin/python3"); // Adjust this if needed
+//     const scriptPath = path.resolve("transcribe.py"); 
+//     const process = spawn(pythonPath, [scriptPath, audioPath]);
+//     // let transcription = "";
+//     process.stdout.on("data", (data) => {
+//         const transcription = data.toString().trim()
+//         res.json({ transcription });
+//     });
+//     process.stderr.on("data", (data) => {
+//         console.error(`stderr: ${data}`);
+//     });
+//     process.on("close", (code) => {
+//         console.log(`Python process exited with code ${code}`);
+//     });
+// });
 chatRouter.post("/speech-to-text", upload.single("audio"), (req, res) => {
-    if (!req.file) return res.status(400).json({ error: "No file uploaded." });
+    if (!req.file) {
+        console.error("❌ No file uploaded.");
+        return res.status(400).json({ error: "No file uploaded." });
+    }
+
     const audioPath = path.resolve(req.file.path); // Full path to file
-    console.log("Received file:", audioPath);
-    // Call Python script to transcribe audio
+    console.log("✅ Received file:", audioPath);
+
+    // Check if Python exists
     const pythonPath = path.resolve("venv/bin/python3"); // Adjust this if needed
-    const scriptPath = path.resolve("transcribe.py"); 
+    console.log("✅ Using Python path:", pythonPath);
+
+    const scriptPath = path.resolve("transcribe.py");
+    console.log("✅ Using script path:", scriptPath);
+
+    // Spawn the Python process
     const process = spawn(pythonPath, [scriptPath, audioPath]);
-    // let transcription = "";
+
     process.stdout.on("data", (data) => {
-        const transcription = data.toString().trim()
-        res.json({ transcription });
+        console.log(`✅ Python output: ${data}`);
+        res.json({ transcription: data.toString().trim() });
     });
+
     process.stderr.on("data", (data) => {
-        console.error(`stderr: ${data}`);
+        console.error(`❌ Python error: ${data}`);
+        res.status(500).json({ error: data.toString() });
     });
+
     process.on("close", (code) => {
-        console.log(`Python process exited with code ${code}`);
+        console.log(`✅ Python process exited with code ${code}`);
     });
 });
+chatRouter.get("/test-python", (req, res) => {
+    console.log("✅ Testing Python execution...");
+    const pythonPath = path.resolve("venv/bin/python3");
+    
+    const process = spawn(pythonPath, ["-c", "import whisper; print('Python is working!')"]);
+    
+    process.stdout.on("data", (data) => {
+        console.log(`✅ Python output: ${data}`);
+        res.send(`Success: ${data}`);
+    });
+
+    process.stderr.on("data", (data) => {
+        console.error(`❌ Python error: ${data}`);
+        res.status(500).send(`Error: ${data}`);
+    });
+
+    process.on("close", (code) => {
+        console.log(`✅ Python process exited with code ${code}`);
+    });
+});
+
 chatRouter.post('/text-to-speech', (req,res)=>{
     if(!req.body.text) return res.status(400).json({error:'No file Uploaded'})
     const text = req.body.text
