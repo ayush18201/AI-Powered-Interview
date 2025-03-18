@@ -31,10 +31,10 @@ function CategoryDetail(){
 
     useEffect(() => {
         const savedData = localStorage?.getItem('interviewData');
-        if (savedData) {
-            setInterviewData(JSON.parse(savedData));
-        }
         if(redirectedFrom == 'login'){
+            if (savedData) {
+                setInterviewData(JSON.parse(savedData));
+            }
             setStart(true),
             setCompleted(true)
         }

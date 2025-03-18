@@ -1,4 +1,7 @@
 gTTS==2.3.2
-openai-whisper==20230314
 torch>=1.9.0
 torchaudio>=0.9.0
+ffmpeg-python==0.2.0
+numpy>=1.21.0
+soundfile
+git+https://github.com/openai/whisper.git
