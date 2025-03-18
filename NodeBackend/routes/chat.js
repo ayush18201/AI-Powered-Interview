@@ -56,6 +56,13 @@ chatRouter.post("/speech-to-text", upload.single("audio"), (req, res) => {
     process.stderr.on("data", (data) => {
         console.error(`❌ Python Error: ${data.toString()}`);
     });
+    process.on("error", (err) => {
+        console.error(`❌ Python Process Failed to Start: ${err.message}`);
+    });
+    
+    process.on("exit", (code, signal) => {
+        console.log(`✅ Python process exited with code ${code}, signal: ${signal}`);
+    });
 
     process.on("close", (code) => {
         console.log(`✅ Python process exited with code ${code}`);
